@@ -2,16 +2,58 @@ package by.academy.springnews.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.*;
 
+@Entity
+@Table (name="news")
 public class News implements Serializable{
 
 	private static final long serialVersionUID = 4437049130519600326L;
 	
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
+	@Column(name="title")
 	private String title;
-	private String brief;
-	private String content;
+	
+	@Column(name="date")
 	private Timestamp datetime;
+	
+	@Column(name="brief")
+	private String brief;
+	
+	@Column(name="content")
+	private String content;
+	
+	
+	
+	public News() {
+	}
+	
+	
+	
+	public News(String title, Timestamp datetime, String brief, String content) {
+		super();
+		this.title = title;
+		this.datetime = datetime;
+		this.brief = brief;
+		this.content = content;
+	}
+
+
+
+	public News(int id, String title, String brief, String content, Timestamp datetime) {
+		this.id = id;
+		this.title = title;
+		this.brief = brief;
+		this.content = content;
+		this.datetime = datetime;
+	}
+
+
+
 	public int getId() {
 		return id;
 	}

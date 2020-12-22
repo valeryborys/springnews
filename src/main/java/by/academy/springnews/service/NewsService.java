@@ -5,10 +5,13 @@ import java.util.List;
 import by.academy.springnews.model.News;
 
 public interface NewsService {
-	void save(News news);
-	void delete(int id);
-	void update(News news);
-	News find(int id);
-	List<News> findAll();
-//TODO throws Exception
+	void save(News news) throws ServiceException;
+
+	void delete(int id) throws ServiceException;
+
+	void update(News news) throws ServiceException;
+
+	News find(int id) throws ServiceException;
+
+	List<News> findAll() throws ServiceException;
 }
