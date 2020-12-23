@@ -15,20 +15,20 @@ public class NewsDaoImpl implements NewsDao{
 //TODO logger
 	
 	@Autowired
-	private SessionFactory factory;
+	private SessionFactory sessionFactory;
 	
-	private static final String HQL_FROM_NEWS = "from news";
+	private static final String HQL_FROM_NEWS = "from News";
 	
 	@Override
 	public void save(News news) throws DaoException {
-		Session session = factory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.persist(news);
 		
 	}
 
 	@Override
 	public void delete(int id) throws DaoException {
-		Session session = factory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		News news = (News) session.load(News.class, id);
 		if(news != null) {
 			session.delete(news);
@@ -38,22 +38,22 @@ public class NewsDaoImpl implements NewsDao{
 
 	@Override
 	public void update(News news) throws DaoException {
-		Session session = factory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		session.update(news);
 		
 	}
 
 	@Override
 	public News find(int id) throws DaoException {
-		Session session = factory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		News news = (News) session.load(News.class, id);
 		return news;
 	}
 
 	@Override
 	public List<News> findAll() throws DaoException {
-		Session session = factory.getCurrentSession();
-		List<News> list = (List<News>) session.createQuery(HQL_FROM_NEWS).list();
+		Session session = sessionFactory.getCurrentSession();
+		List<News> list = (List<News>) session.createQuery(HQL_FROM_NEWS, News.class).getResultList();
 		return list;
 	}
 
