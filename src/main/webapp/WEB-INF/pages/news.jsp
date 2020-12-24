@@ -16,12 +16,8 @@
 <fmt:message bundle="${locale}" key="lang.russian" var="russian" />
 <fmt:message bundle="${locale}" key="list.newsList" var="newsList" />
 <fmt:message bundle="${locale}" key="list.addNews" var="addList" />
-<fmt:message bundle="${locale}" key="newsBlock.latestNews"
-	var="latestNews" />
 <fmt:message bundle="${locale}" key="newsBlock.editButton"
 	var="editButton" />
-<fmt:message bundle="${locale}" key="newsBlock.viewButton"
-	var="viewButton" />
 <fmt:message bundle="${locale}" key="newsBlock.deleteButton"
 	var="deleteButton" />
 </head>
@@ -43,9 +39,6 @@
 		</div>
 	</header>
 	<main>
-
-
-
 		<aside class="management-block">
 			<p align="center">
 				<c:out value="${listHead}:" />
@@ -57,42 +50,41 @@
 							value="${addList}" /></a></li>
 			</ul>
 		</aside>
-		<div class="news-block"><!-- this block should be form -->
-			<p class="title">
-				<c:out value="${latestNews}:" />
-			</p>
-			<c:forEach items="${listNews}" var="news">
-				<p>
-					<span class="title"><a
-						href="show?id=${news.id}">${news.title}</a></span>
-					<c:set var="loc" value="${sessionScope.locale}" />
-					<c:set var="ru_loc" value="ru" />
-					<c:set var="en_loc" value="en" />
-					<c:if test="${loc==ru_loc}"><fmt:formatDate pattern="dd-MM-yyyy HH:mm" value="${news.datetime}" var="ru_time" />
-					<i class="time">${ru_time}</i></c:if>
-					<c:if test="${loc==en_loc}"><fmt:formatDate pattern="MM/dd/yy HH:mm" value="${news.datetime}" var="en_time" />
-					<i class="time">${en_time}</i></c:if>
-				</p>
-				<p class="brief">${news.brief}</p>
-				<div class="bottom-margin">
-					<input class="management-buttons" type="checkbox"
-						name="deleteCheckbox" value="${news.id}"> <input
-						class="management-buttons" type="button" value="${editButton}"
-						onclick='location.href="controller?command=editPage&id=${news.id}"'>
-					<input class="management-buttons" type="button"
-						value="${viewButton}"
-						onclick='location.href="show?id=${news.id}"'></br>
-					</br>
-				</div>
+		<div class="news-block">
+			<p>
+ 				<span class="title">${certainNews.title}</span> 
+				<c:set var="loc" value="${sessionScope.locale}" />
+				<c:set var="ru_loc" value="ru" />
+				<c:set var="en_loc" value="en" />
+				<c:if test="${loc==ru_loc}">
+					<fmt:formatDate pattern="dd-MM-yyyy HH:mm"
+ 						value="${certainNews.datetime}" var="ru_time" /> 
+					<i class="time">${ru_time}</i>
+				</c:if>
+				<c:if test="${loc==en_loc}"> 
+				<fmt:formatDate pattern="MM/dd/yy HH:mm"
+						value="${certainNews.datetime}" var="en_time" /> 
+					<i class="time">${en_time}</i>
+				</c:if>
 
-			</c:forEach>
-			<div class="management-buttons bottom-margin">
-				<button type="submit">
-					<c:out value="${deleteButton}" />
-				</button>
+			</p>
+			<p class="brief">
+				<c:out value="${certainNews.brief}" />
+			</p>
+			<div class="content">
+				<c:out value="${certainNews.content}" />
 			</div>
+			<div class="management-buttons bottom-margin">
+				<span class="management-buttons"><a
+					href="controller?command=delete&id=${certainNews.id}"><button>
+							<c:out value="${deleteButton}" />
+						</button></a></span> <span class="management-buttons"><a
+					href="controller?command=editPage&id=${certainNews.id}"><button>
+							<c:out value="${editButton}" />
+						</button></a></span>
+			</div>
+
 		</div>
 	</main>
 </body>
 </html>
-

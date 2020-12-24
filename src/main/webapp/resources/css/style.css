@@ -1,0 +1,85 @@
+input[type=text], select, textarea {
+	width: 90%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	resize: vertical;
+	margin-left: 10px;
+}
+a {
+	text-decoration: none;
+}
+
+.warning {
+	color: red;
+}
+
+.header-block {
+	border: 2px solid black;
+	margin-bottom: 40px;
+}
+
+.lang {
+	display: inline;
+	margin-right: 15px;
+} 
+
+.logo {
+	margin-left: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font: 30pt arial;
+	color: green;
+
+}
+
+.management-block {
+	width: 10%;
+	float: left;
+	background-color: #f0f0f0;
+	border: 2px solid black;
+}
+
+.news-block {
+	border: 2px solid black;
+	width: 85%;
+	float: right;
+	padding-left: 15px;
+	padding-right: 15px;
+	
+}
+
+.title {
+	font: 20pt arial;
+	padding-left: 20px;
+	color: black;
+}
+
+.time {
+	float: right;
+}
+
+.brief {
+	font-size: 15pt bold;
+	padding-left: 10px;
+}
+
+.content {
+	font: 15pt;
+	padding-left: 10px;
+	white-space: pre-line;
+}
+
+.bottom-margin {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.content-input {
+	height: 300px;
+}
+.management-buttons {
+	float:right;
+	display: inline;
+	margin-right: 15px;
+}

@@ -17,7 +17,7 @@ public class NewsDaoImpl implements NewsDao{
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	private static final String HQL_FROM_NEWS = "from News";
+	private static final String HQL_FROM_NEWS = "from News order by id desc";
 	
 	@Override
 	public void save(News news) throws DaoException {
@@ -46,7 +46,7 @@ public class NewsDaoImpl implements NewsDao{
 	@Override
 	public News find(int id) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
-		News news = (News) session.load(News.class, id);
+		News news = (News) session.get(News.class, id);
 		return news;
 	}
 
