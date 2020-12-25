@@ -22,7 +22,7 @@ public class NewsDaoImpl implements NewsDao{
 	@Override
 	public void save(News news) throws DaoException {
 		Session session = sessionFactory.getCurrentSession();
-		session.persist(news);
+		session.saveOrUpdate(news);
 		
 	}
 

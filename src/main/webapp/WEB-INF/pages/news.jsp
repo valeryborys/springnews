@@ -24,6 +24,7 @@
 <body>
 	<header class="header-block">
 		<p class="logo">News management</p>
+		
 		<div align="right" class="bottom-margin">
 			<form class="lang" action="localeChange"
 				method="post">
@@ -38,18 +39,18 @@
 			</form>
 		</div>
 	</header>
+	
+	
 	<main>
 		<aside class="management-block">
-			<p align="center">
-				<c:out value="${listHead}:" />
-			</p>
+			<p align="center"><c:out value="${listHead}:" /></p>
 			<ul>
-				<li><a href="list"><c:out
-							value="${newsList}" /></a></li>
-				<li><a href="controller?command=addPage"><c:out
-							value="${addList}" /></a></li>
+				<li><a href="list"><c:out value="${newsList}" /></a></li>
+				<li><a href="addForm"><c:out value="${addList}" /></a></li>
 			</ul>
 		</aside>
+		
+		
 		<div class="news-block">
 			<p>
  				<span class="title">${certainNews.title}</span> 
@@ -68,22 +69,24 @@
 				</c:if>
 
 			</p>
+			
 			<p class="brief">
 				<c:out value="${certainNews.brief}" />
 			</p>
+			
 			<div class="content">
 				<c:out value="${certainNews.content}" />
 			</div>
+			
 			<div class="management-buttons bottom-margin">
 				<span class="management-buttons"><a
-					href="controller?command=delete&id=${certainNews.id}"><button>
+					href="delete?id=${certainNews.id}"><button>
 							<c:out value="${deleteButton}" />
 						</button></a></span> <span class="management-buttons"><a
-					href="controller?command=editPage&id=${certainNews.id}"><button>
+					href="editForm?id=${certainNews.id}"><button>
 							<c:out value="${editButton}" />
 						</button></a></span>
 			</div>
-
 		</div>
 	</main>
 </body>

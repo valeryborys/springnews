@@ -83,3 +83,7 @@ a {
 	display: inline;
 	margin-right: 15px;
 }
+
+.labels {
+	vertical-align: center;
+}

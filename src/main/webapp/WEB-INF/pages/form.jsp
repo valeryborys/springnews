@@ -13,10 +13,15 @@
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="lang" var="locale" />
 <fmt:message bundle="${locale}" key="news" var="listHead" />
+<fmt:message bundle="${locale}" key="title" var="title" />
+<fmt:message bundle="${locale}" key="brief" var="brief" />
+<fmt:message bundle="${locale}" key="content" var="content" />
 <fmt:message bundle="${locale}" key="lang.english" var="english" />
 <fmt:message bundle="${locale}" key="lang.russian" var="russian" />
 <fmt:message bundle="${locale}" key="list.newsList" var="newsList" />
 <fmt:message bundle="${locale}" key="list.addNews" var="addList" />
+<fmt:message bundle="${locale}" key="newsBlock.confirmButton"
+	var="confirm" />
 <fmt:message bundle="${locale}" key="newsBlock.latestNews"
 	var="latestNews" />
 <fmt:message bundle="${locale}" key="newsBlock.editButton"
@@ -25,29 +30,40 @@
 	var="viewButton" />
 <fmt:message bundle="${locale}" key="newsBlock.deleteButton"
 	var="deleteButton" />
+<fmt:message bundle="${locale}" key="newsBlock.cancelButton"
+	var="cancelButton" />
+<fmt:message bundle="${locale}" key="warning.title"
+	var="titleWarningMessage" />
+<fmt:message bundle="${locale}" key="warning.brief"
+	var="briefWarningMessage" />
+<fmt:message bundle="${locale}" key="warning.content"
+	var="contentWarningMessage" />
 </head>
+
 <body>
 	<header class="header-block">
 		<p class="logo">News management</p>
-		
+
+
 		<div align="right" class="bottom-margin">
-			<form class="lang" action="localeChange" method="post">
+			<p class="lang">
 				<input type="hidden" name="locale" value="en"> <input
 					type="submit" value="${english}" />
-			</form>
-
-			<form class="lang" action="localeChange" method="post">
+			</p>
+			<p class="lang">
 				<input type="hidden" name="locale" value="ru"> <input
 					type="submit" value="${russian}" />
-			</form>
+			</p>
 		</div>
 	</header>
-	
-	
-	<main>
 
+
+
+	<main>
 		<aside class="management-block">
-			<p align="center"><c:out value="${listHead}:" /></p>
+			<p align="center">
+				<c:out value="${listHead}:" />
+			</p>
 			<ul>
 				<li><a href="list"><c:out value="${newsList}" /></a></li>
 				<li><a href="addForm"><c:out value="${addList}" /></a></li>
@@ -55,49 +71,45 @@
 		</aside>
 
 
-		<form:form action="groupDelete" class="news-block" method="post">
-			<p class="title"><c:out value="${latestNews}:" /></p>
+		<form:form action="save" modelAttribute="news" method="POST"
+			class="news-block">
+			<form:hidden path="id" />
+
+			<c:if test="${news.datetime != null}">
+				<form:hidden path="datetime" />
+			</c:if>
 			
-			<c:forEach items="${listNews}" var="news">
-				<p>
-					<span class="title"><a href="show?id=${news.id}">${news.title}</a></span>
-					<c:set var="loc" value="${sessionScope.locale}" />
-					<c:set var="ru_loc" value="ru" />
-					<c:set var="en_loc" value="en" />
-					<c:if test="${loc==ru_loc}">
-						<fmt:formatDate pattern="dd-MM-yyyy HH:mm"
-							value="${news.datetime}" var="ru_time" />
-						<i class="time">${ru_time}</i>
-					</c:if>
-					<c:if test="${loc==en_loc}">
-						<fmt:formatDate pattern="MM/dd/yy HH:mm" value="${news.datetime}"
-							var="en_time" />
-						<i class="time">${en_time}</i>
-					</c:if>
+			<p><c:out value="${title}:" /></p>
+			<p><form:input path="title" /></p>
+			<c:if test="${titleWarning == false}">
+				<p align="center" class="warning">
+					<c:out value="${titleWarningMessage}" />
 				</p>
-				
-				<p class="brief">${news.brief}</p>
-				
-				<div class="bottom-margin">
-					<input class="management-buttons" type="checkbox"
-						name="deleteCheckbox" value="${news.id}"> <input
-						class="management-buttons" type="button" value="${editButton}"
-						onclick='location.href="editForm?id=${news.id}"'> <input
-						class="management-buttons" type="button" value="${viewButton}"
-						onclick='location.href="show?id=${news.id}"'></br> </br>
-				</div>
-				
-			</c:forEach>
+			</c:if>
+
+			<p><c:out value="${brief}:" /></p>
+			<p><form:input path="brief" /></p>
+			<c:if test="${briefWarning == false}">
+				<p align="center" class="warning">
+					<c:out value="${briefWarningMessage}" />
+				</p>
+			</c:if>
+
+
+			<p><c:out value="${content}:" /></p>
+			<p><form:textarea class="content-input" path="content" /></p>
+			<c:if test="${contentWarning == false}">
+				<p align="center" class="warning">
+					<c:out value="${contentWarningMessage}" />
+				</p>
+			</c:if>
 			
 			
-			<div class="management-buttons bottom-margin">
-				<button type="submit">
-					<c:out value="${deleteButton}" />
-				</button>
+			<div class="bottom-margin" align="center">
+				<input type="submit" value="${confirm}" /> <input type="button"
+					value="${cancelButton}" onclick='location.href="list"'>
 			</div>
 		</form:form>
-		
 	</main>
 </body>
 </html>
-
