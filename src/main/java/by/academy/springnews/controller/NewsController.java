@@ -3,10 +3,13 @@ package by.academy.springnews.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import static by.academy.springnews.controller.ConstantValues.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,52 +27,57 @@ import by.academy.springnews.service.ServiceException;
 @Controller
 @RequestMapping("/")
 public class NewsController {
-	//TODO magic values
+	
+	private static final Logger logger = LogManager.getLogger(NewsController.class);
+	
 	@Autowired
 	private NewsService newsService;
+	
 	
 	@RequestMapping("/list")
 	public String listNews(Model model) {
 		
 		try {
 			List<News> news = newsService.findAll();
-			model.addAttribute("listNews", news);
+			model.addAttribute(LIST_NEWS, news);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				logger.error("Main page presentation service exception", e);
+				return ERROR_PAGE;
 		}
-		return "list";
-		
+		return LIST;
 	}
+	
 	
 	@GetMapping("/addForm")
 	public String addForm(Model model) {
 		News news = new News();
-		model.addAttribute("news",news);
-	return "form";	
+		model.addAttribute(NEWS,news);
+	return FORM;	
 	}
 	
+	
 	@GetMapping("/editForm")
-	public String editForm(@RequestParam("id")int id, Model model) {
+	public String editForm(@RequestParam(ID)int id, Model model) {
 		News news=null;
 		try {
 			news = newsService.find(id);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Service exception while savig news edit", e);
+			return ERROR_PAGE;
 		}
-		model.addAttribute("news",news);
-	return "form";	
+		model.addAttribute(NEWS,news);
+	return FORM;	
 	}
 	
+	
 	@PostMapping("/save")
-	public String save(@ModelAttribute("news") News news, Model model) {
+	public String save(@ModelAttribute(NEWS) News news, Model model) {
 		if (!NewsValidationService.newsValidation(news)) {
-			model.addAttribute("titleWarning", NewsValidationService.titleValidation(news.getTitle()));
-			model.addAttribute("briefWarning", NewsValidationService.briefValidation(news.getBrief()));
-			model.addAttribute("contentWarning",NewsValidationService.contentValidation(news.getContent()));
-			model.addAttribute("news", news);
-			return "/form";
+			model.addAttribute(TITLE_WARNING, NewsValidationService.titleValidation(news.getTitle()));
+			model.addAttribute(BRIEF_WARNING, NewsValidationService.briefValidation(news.getBrief()));
+			model.addAttribute(CONTENT_WARNING,NewsValidationService.contentValidation(news.getContent()));
+			model.addAttribute(NEWS, news);
+			return FORM;
 		}
 		Timestamp datetime=null;
 		if (news.getDatetime() == null) {
@@ -79,62 +87,62 @@ public class NewsController {
 		try {
 			newsService.save(news);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Service exception while savig news", e);
+			return ERROR_PAGE;
 		}
-		return "redirect:/list";
+		return REDIRECT+LIST;
 	}
+	
 	
 	@GetMapping("/show")
-	public String findCertainNews(@RequestParam("id") int id, Model model) {
+	public String findCertainNews(@RequestParam(ID) int id, Model model) {
 		try {
 			News news = newsService.find(id);
-			System.out.println(news.getTitle());
-			model.addAttribute("certainNews", news);
+			model.addAttribute(CERTAIN_NEWS, news);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Finding news service exception", e);
+			return ERROR_PAGE;
 		}
-		return "news";
-		
+		return NEWS;
 	}
 	
+	
 	@GetMapping("/delete")
-	public String delete(@RequestParam("id") int id) {
+	public String delete(@RequestParam(ID) int id) {
 		try {
 			newsService.delete(id);
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Service exception while deleting news", e);
+			return ERROR_PAGE;
 		}
-		return "redirect:/list";
+		return REDIRECT+LIST;
 	}
 	
+	
 	@PostMapping("/groupDelete")
-	public String groupDelete(@RequestParam("deleteCheckbox") String[] checkboxes) {
+	public String groupDelete(@RequestParam(DELETE_CHECKBOX) String[] checkboxes) {
 		int id;
 		for(String checkbox : checkboxes) {
 			id = Integer.parseInt(checkbox);
 			try {
 				newsService.delete(id);
 			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Service exception while deleting news", e);
+				return ERROR_PAGE;
 			}
 		}
-		return "redirect:/list";
+		return REDIRECT+LIST;
 	}
+	
+	
 	@RequestMapping("/localeChange")
-	public void localeChange(@RequestParam("locale") String locale, HttpServletRequest req, HttpServletResponse resp) {
-		req.getSession(true).setAttribute("locale", req.getParameter("locale"));
-		// TODO logger.info("Locale changed to "+ req.getParameter("locale"));
+	public void localeChange(@RequestParam(LOCALE) String locale, HttpServletRequest req, HttpServletResponse resp) {
+		req.getSession(true).setAttribute(LOCALE, req.getParameter(LOCALE));
+		logger.info("Locale changed to "+ req.getParameter(LOCALE));
 		try {
-			resp.sendRedirect(req.getHeader("Referer"));
+			resp.sendRedirect(req.getHeader(REFERER));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("IO exception while locale changing", e);
 		}
-		
 	}
-
 }

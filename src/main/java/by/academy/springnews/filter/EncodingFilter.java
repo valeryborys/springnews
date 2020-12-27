@@ -12,12 +12,7 @@ import javax.servlet.ServletResponse;
 
 public class EncodingFilter implements Filter {
 	private String encoding;
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
+	private static final String CHARACTER_ENCODING ="characterEncoding";
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain filterChain)
@@ -29,7 +24,7 @@ public class EncodingFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig fConfig) throws ServletException {
-		encoding = fConfig.getInitParameter("characterEncoding");
+		encoding = fConfig.getInitParameter(CHARACTER_ENCODING);
 		
 	}
 }

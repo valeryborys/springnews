@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
  <Properties>
-    <Property name="baseDir">C:/Program Files/Tomcat/webapps/News/WEB-INF/logs</Property>
+    <Property name="baseDir">D:/logs</Property>
   </Properties>
    <Appenders>
     <RollingFile name="RollingFile" fileName="${baseDir}/app.log"

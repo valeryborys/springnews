@@ -7,12 +7,12 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.sun.istack.logging.Logger;
+
 import by.academy.springnews.model.News;
 
 @Repository
 public class NewsDaoImpl implements NewsDao{
-	
-//TODO logger
 	
 	@Autowired
 	private SessionFactory sessionFactory;

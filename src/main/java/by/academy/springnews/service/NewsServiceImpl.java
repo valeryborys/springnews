@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.academy.springnews.dao.DaoException;
 import by.academy.springnews.dao.NewsDao;
 import by.academy.springnews.model.News;
@@ -17,6 +21,8 @@ public class NewsServiceImpl implements NewsService{
 	
 	@Autowired
 	private NewsDao newsDao;
+	
+	private static final Logger logger = LogManager.getLogger(NewsServiceImpl.class);
 
 	@Override
 	@Transactional
@@ -24,11 +30,9 @@ public class NewsServiceImpl implements NewsService{
 		try {
 			newsDao.save(news);
 		} catch (DaoException e) {
-			//TODO logger
-			throw new ServiceException(e);
-			
-		}
-		
+			logger.error("DaoException while news DB saving",e);
+			throw new ServiceException(e);		
+		}	
 	}
 
 	@Override
@@ -37,10 +41,9 @@ public class NewsServiceImpl implements NewsService{
 		try {
 			newsDao.delete(id);
 		} catch (DaoException e) {
-			//TODO logger
+			logger.error("DaoException while news DB deleting",e);
 			throw new ServiceException(e);
 		}
-		
 	}
 
 	@Override
@@ -49,10 +52,9 @@ public class NewsServiceImpl implements NewsService{
 		try {
 			newsDao.update(news);
 		} catch (DaoException e) {
-			//TODO logger
+			logger.error("DaoException while news DB updating",e);
 			throw new ServiceException(e);
 		}
-		
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class NewsServiceImpl implements NewsService{
 		try {
 			 news = newsDao.find(id);
 		} catch (DaoException e) {
-			//TODO logger
+			logger.error("DaoException while finding News in the DB",e);
 			throw new ServiceException(e);
 		}
 		return news;
@@ -75,7 +77,7 @@ public class NewsServiceImpl implements NewsService{
 		try {
 			list = newsDao.findAll();
 		} catch (DaoException e) {
-			//TODO logger
+			logger.error("DaoException while finding News list in the DB",e);
 			throw new ServiceException(e);
 		}
 		return list;
