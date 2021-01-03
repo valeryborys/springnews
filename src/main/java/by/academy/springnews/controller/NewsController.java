@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import by.academy.springnews.model.News;
 import by.academy.springnews.service.NewsService;
-import by.academy.springnews.service.NewsValidationService;
+import by.academy.springnews.service.impl.NewsValidationService;
 import by.academy.springnews.service.ServiceException;
 
 @Controller

@@ -1,4 +1,4 @@
-package by.academy.springnews.service;
+package by.academy.springnews.service.impl;
 
 import by.academy.springnews.model.News;
 

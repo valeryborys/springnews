@@ -1,8 +1,10 @@
-package by.academy.springnews.service;
+package by.academy.springnews.service.impl;
 
 
 import java.util.List;
 
+import by.academy.springnews.service.NewsService;
+import by.academy.springnews.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,7 @@ import by.academy.springnews.model.News;
 
 
 @Service
-public class NewsServiceImpl implements NewsService{
+public class NewsServiceImpl implements NewsService {
 	
 	@Autowired
 	private NewsDao newsDao;

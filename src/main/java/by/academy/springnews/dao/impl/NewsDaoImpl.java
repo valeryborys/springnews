@@ -1,7 +1,9 @@
-package by.academy.springnews.dao;
+package by.academy.springnews.dao.impl;
 
 import java.util.List;
 
+import by.academy.springnews.dao.DaoException;
+import by.academy.springnews.dao.NewsDao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,7 @@ import com.sun.istack.logging.Logger;
 import by.academy.springnews.model.News;
 
 @Repository
-public class NewsDaoImpl implements NewsDao{
+public class NewsDaoImpl implements NewsDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;

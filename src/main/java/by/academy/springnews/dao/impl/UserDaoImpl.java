@@ -1,5 +1,7 @@
-package by.academy.springnews.dao;
+package by.academy.springnews.dao.impl;
 
+import by.academy.springnews.dao.DaoException;
+import by.academy.springnews.dao.UserDao;
 import by.academy.springnews.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +15,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private static final String HQL_GET_USER = "from Users where username =: username";
+    private static final String HQL_GET_USER = "from User where username =: username";
 
     @Override
     public User find(String name) throws DaoException {
