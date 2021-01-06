@@ -10,12 +10,15 @@ import by.academy.springnews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final int ROLE_ID=2;
 
     @Autowired
     private UserDao userDao;
@@ -28,11 +31,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public void save(User user) throws ServiceException {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
     Set<Role> roles = new HashSet<>();
         try {
-            roles.add(roleDao.getRole(user.getId()));
+            roles.add(roleDao.getRole(ROLE_ID));
             user.setRoles(roles);
             userDao.save(user);
         } catch (DaoException e) {
@@ -41,6 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User find(String name) throws ServiceException {
         User user;
         try {

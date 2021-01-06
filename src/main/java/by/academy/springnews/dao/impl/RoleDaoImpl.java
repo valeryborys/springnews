@@ -15,13 +15,13 @@ public class RoleDaoImpl implements RoleDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private static final String HQL_GET_ROLE="from Roles where id =: id";
+    private static final String HQL_GET_ROLE="from Role where id =: roleId";
 
     @Override
     public Role getRole(int id) throws DaoException {
         Session session = sessionFactory.getCurrentSession();
         Query<Role> query = session.createQuery(HQL_GET_ROLE, Role.class);
-        query.setParameter("id", id);
+        query.setParameter("roleId", id);
         Role role = query.uniqueResult();
         return role;
 

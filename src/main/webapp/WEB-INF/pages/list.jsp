@@ -10,6 +10,7 @@
 <title>News Portal</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resources/css/style.css"/>" />
+	<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="lang" var="locale" />
 <fmt:message bundle="${locale}" key="news" var="listHead" />
@@ -45,7 +46,21 @@
 	
 	
 	<main>
-
+	<div class="side-block">
+		<aside class="management-block">
+			<form method="POST" action="${contextPath}/login" >
+				<p align="center">Please, login</p>
+				<div align="center" class="form-group ${error != null ? 'has-error' : ''}">
+					<p align="center">${message}</p>
+					<input align="center" name="username" type="text"  placeholder="Username"/>
+					<input align="center" name="password" type="password" placeholder="Password"/>
+					<p align="center">${error}</p>
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					<p align="center"> <button type="submit">Log In</button></p>
+					<div align="center"> <a href="${contextPath}/registration">Or create an account</a></div>
+				</div>
+			</form>
+		</aside>
 		<aside class="management-block">
 			<p align="center"><c:out value="${listHead}:" /></p>
 			<ul>
@@ -53,7 +68,7 @@
 				<li><a href="addForm"><c:out value="${addList}" /></a></li>
 			</ul>
 		</aside>
-
+		</div>
 
 		<form:form action="groupDelete" class="news-block" method="post">
 			<p class="title"><c:out value="${latestNews}:" /></p>

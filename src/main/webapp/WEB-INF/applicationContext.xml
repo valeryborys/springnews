@@ -23,6 +23,8 @@
     <mvc:annotation-driven/>
 
 
+
+
     <!-- Define Spring MVC view resolver -->
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -69,6 +71,25 @@
 
     <!-- Add support for reading web resources: css, images, js, etc ... -->
     <mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*" />
+            <ref bean="localeChangeInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="lang" />
+    </bean>
+    <bean id="messageSource"  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="lang"/>
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="ru" />
+    </bean>
+
 
 </beans>
 

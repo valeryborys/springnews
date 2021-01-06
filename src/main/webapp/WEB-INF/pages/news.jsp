@@ -42,6 +42,8 @@
 	
 	
 	<main>
+
+
 		<aside class="management-block">
 			<p align="center"><c:out value="${listHead}:" /></p>
 			<ul>
