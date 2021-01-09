@@ -10,6 +10,7 @@
     <http auto-config="true">
         <intercept-url pattern="/" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
         <intercept-url pattern="/list" access="permitAll()"/>
+        <intercept-url pattern="/localeChange" access="permitAll()"/>
         <intercept-url pattern="/addForm" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/editForm" access="hasRole('ROLE_ADMIN')"/>
 
