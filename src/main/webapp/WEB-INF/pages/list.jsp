@@ -2,7 +2,9 @@
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +49,9 @@
 	
 	<main>
 	<div class="side-block">
+		<sec:authorize access="authenticated" var="authenticated" />
 		<aside class="management-block">
+			<sec:authorize access="!isAuthenticated()">
 			<form method="POST" action="${contextPath}/login" >
 				<p align="center">Please, login</p>
 				<div align="center" class="form-group ${error != null ? 'has-error' : ''}">
@@ -60,6 +64,11 @@
 					<div align="center"> <a href="${contextPath}/registration">Or create an account</a></div>
 				</div>
 			</form>
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<p align="center"> Welcome, XXXX.</p> <%--<sec:authentication property="username" />--%>
+				<p align="center"> <a href="<spring:url value="/logout"/>">Logout</a></p>
+			</sec:authorize>
 		</aside>
 		<aside class="management-block">
 			<p align="center"><c:out value="${listHead}:" /></p>

@@ -1,6 +1,7 @@
 package by.academy.springnews.controller;
 
 
+import by.academy.springnews.model.News;
 import by.academy.springnews.model.User;
 import by.academy.springnews.service.SecurityService;
 import by.academy.springnews.service.ServiceException;
@@ -13,6 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -48,15 +52,19 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(Model model, String error, String logout) {
+    public String login(Model model, String error) {
         if (error != null) {
             model.addAttribute("error","Username or password is incorrect");
+            return "login";
         }
-        if(logout!=null){
-            model.addAttribute("message", "Logged out successfully");
-        }
-        return "login";
+        return "redirect:/list";
     }
 
+    @GetMapping("/logout")
+    public String logout(Model model, HttpSession session){
+        session.invalidate();
+        model.addAttribute("message", "Logged out successfully");
+        return "redirect:/list";
+    }
 
 }
